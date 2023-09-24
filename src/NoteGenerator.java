@@ -12,6 +12,7 @@ public class NoteGenerator {
 	public static float sampleRate;
 	public static int sampleSize;
 	public static int channel;
+	public int multiplier;
 	public static List<byte[]> noteArray = new ArrayList<>();
 	Mixer mixer;
 	AudioFormat format;
@@ -74,6 +75,47 @@ public class NoteGenerator {
             currentIndex += byteArray.length;
         }
         return concatenatedByteArray;
+	}
+	
+	public void addNote(String note,int duration,int octave) {
+		if (octave==1) {
+			multiplier = 1;
+		}else if(octave==2) {
+			multiplier = 2;
+		}else if(octave == 3) {
+			multiplier = 4;
+		}else {
+			System.out.println("Only octave to 3 is allowed");
+		}
+		if (octave<4) {
+				switch(note) {
+				case "C":
+					noteArray.add(generateSoundNote(261.63*multiplier,duration));
+				break;
+				case "C#":
+					noteArray.add(generateSoundNote(277.18*multiplier,duration));
+				break;
+				case "D":
+					noteArray.add(generateSoundNote(293.66*multiplier,duration));
+				break;
+				case "D#":
+					noteArray.add(generateSoundNote(311.13*multiplier,duration));
+				case "E":
+					noteArray.add(generateSoundNote(329.63*multiplier,duration));
+				break;
+				case "F":
+					noteArray.add(generateSoundNote(349.23*multiplier,duration));
+				break;
+				case "G":
+					noteArray.add(generateSoundNote(329*multiplier,duration));
+				break;
+				default :
+				break;
+			}
+		}else {
+			System.out.println("Some of the note is using octave higher than 3");
+		}
+
 	}
 }
 
